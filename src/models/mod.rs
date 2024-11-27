@@ -20,4 +20,5 @@ pub struct Slab {
     pub date_sold: Option<String>,
     pub notes: String,
     pub image_url: Option<String>,
+    pub ace_label_url: Option<String>,
 }

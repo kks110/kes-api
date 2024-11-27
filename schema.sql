@@ -20,3 +20,5 @@ CREATE TABLE IF NOT EXISTS Slabs (
     notes TEXT NOT NULL,
     image_url TEXT NOT NULL
 );
+
+ALTER TABLE Slabs ADD COLUMN ace_label_url TEXT;

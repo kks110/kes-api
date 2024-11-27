@@ -58,7 +58,7 @@ async fn slab_exists(d1: &D1Database, cert_number: &str) -> Result<bool> {
 
 async fn update_slab(d1: &D1Database, slab: Slab) -> Result<()> {
     let statement = d1.prepare(
-        "UPDATE Slabs SET owner = ?, for_sale = ?, card_name = ?, card_number = ?, set_name = ?, tcg = ?, language = ?, cost = ?, grading_company = ?, grade = ?, price = ?, sold = ?, sold_value = ?, date_sold = ?, notes = ?, image_url = ? WHERE cert_number = ?"
+        "UPDATE Slabs SET owner = ?, for_sale = ?, card_name = ?, card_number = ?, set_name = ?, tcg = ?, language = ?, cost = ?, grading_company = ?, grade = ?, price = ?, sold = ?, sold_value = ?, date_sold = ?, notes = ?, image_url = ?, ace_label_url = ? WHERE cert_number = ?"
     );
     let query = statement.bind(&[
         slab.owner.into(),
@@ -77,6 +77,7 @@ async fn update_slab(d1: &D1Database, slab: Slab) -> Result<()> {
         slab.date_sold.map_or(JsValue::NULL, |v| v.into()),
         slab.notes.into(),
         slab.image_url.unwrap_or_else(|| "https://limitlesstcg.com/images/image_not_available.png".to_string()).into(),
+        slab.ace_label_url.map_or(JsValue::NULL, |v| v.into()),
         slab.cert_number.into(),
     ])?;
     let _: Vec<Slab> = query.all().await?.results()?;
@@ -87,7 +88,7 @@ async fn update_slab(d1: &D1Database, slab: Slab) -> Result<()> {
 
 async fn insert_slab(d1: &D1Database, slab: Slab) -> Result<()> {
     let statement = d1.prepare(
-        "INSERT INTO Slabs (owner, for_sale, card_name, card_number, set_name, tcg, language, cost, grading_company, grade, cert_number, price, sold, sold_value, date_sold, notes, image_url) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"
+        "INSERT INTO Slabs (owner, for_sale, card_name, card_number, set_name, tcg, language, cost, grading_company, grade, cert_number, price, sold, sold_value, date_sold, notes, image_url, ace_label_url) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"
     );
     let query = statement.bind(&[
         slab.owner.into(),
@@ -107,6 +108,7 @@ async fn insert_slab(d1: &D1Database, slab: Slab) -> Result<()> {
         slab.date_sold.map_or(JsValue::NULL, |v| v.into()),
         slab.notes.into(),
         slab.image_url.unwrap_or_else(|| "https://limitlesstcg.com/images/image_not_available.png".to_string()).into(),
+        slab.ace_label_url.map_or(JsValue::NULL, |v| v.into()),
     ])?;
     let _: Vec<Slab> = query.all().await?.results()?;
     console_log!("Created slab");
