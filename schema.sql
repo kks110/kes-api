@@ -11,14 +11,14 @@ CREATE TABLE IF NOT EXISTS Slabs (
     language TEXT NOT NULL,
     cost REAL NOT NULL,
     grading_company TEXT NOT NULL,
-    grade INTEGER NOT NULL,
+    grade REAL NOT NULL,
     cert_number TEXT UNIQUE NOT NULL,
     price INTEGER,
     sold BOOLEAN NOT NULL,
     sold_value INTEGER,
     date_sold TEXT,
     notes TEXT NOT NULL,
-    image_url TEXT NOT NULL
+    image_url TEXT NOT NULL,
+    ace_label_url TEXT,
+    listing_url TEXT
 );
-
-ALTER TABLE Slabs ADD COLUMN ace_label_url TEXT;

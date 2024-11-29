@@ -12,7 +12,7 @@ pub struct Slab {
     pub language: String,
     pub cost: f64,
     pub grading_company: String,
-    pub grade: i32,
+    pub grade: f64,
     pub cert_number: String,
     pub price: Option<f64>,
     pub sold: i32,
@@ -21,4 +21,5 @@ pub struct Slab {
     pub notes: String,
     pub image_url: Option<String>,
     pub ace_label_url: Option<String>,
+    pub listing_url: Option<String>,
 }
