@@ -58,7 +58,7 @@ async fn slab_exists(d1: &D1Database, cert_number: &str) -> Result<bool> {
 
 async fn update_slab(d1: &D1Database, slab: Slab) -> Result<()> {
     let statement = d1.prepare(
-        "UPDATE Slabs SET owner = ?, for_sale = ?, card_name = ?, card_number = ?, set_name = ?, tcg = ?, language = ?, cost = ?, grading_company = ?, grade = ?, price = ?, sold = ?, sold_value = ?, date_sold = ?, notes = ?, image_url = ?, ace_label_url = ?, listing_url = ? WHERE cert_number = ?"
+        "UPDATE Slabs SET owner = ?, for_sale = ?, card_name = ?, card_number = ?, set_name = ?, tcg = ?, language = ?, grading_company = ?, grade = ?, slab_case = ?, price = ?, sold = ?, sold_value = ?, date_sold = ?, notes = ?, image_url = ?, ace_label_url = ?, listing_url = ? WHERE cert_number = ?"
     );
     let query = statement.bind(&[
         slab.owner.into(),
@@ -68,9 +68,9 @@ async fn update_slab(d1: &D1Database, slab: Slab) -> Result<()> {
         slab.set_name.into(),
         slab.tcg.into(),
         slab.language.into(),
-        slab.cost.into(),
         slab.grading_company.into(),
         slab.grade.into(),
+        slab.slab_case.map_or(JsValue::NULL, |v| v.into()),
         slab.price.map_or(JsValue::NULL, |v| v.into()),
         slab.sold.into(),
         slab.sold_value.map_or(JsValue::NULL, |v| v.into()),
@@ -89,7 +89,7 @@ async fn update_slab(d1: &D1Database, slab: Slab) -> Result<()> {
 
 async fn insert_slab(d1: &D1Database, slab: Slab) -> Result<()> {
     let statement = d1.prepare(
-        "INSERT INTO Slabs (owner, for_sale, card_name, card_number, set_name, tcg, language, cost, grading_company, grade, cert_number, price, sold, sold_value, date_sold, notes, image_url, ace_label_url, listing_url) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"
+        "INSERT INTO Slabs (owner, for_sale, card_name, card_number, set_name, tcg, language, grading_company, grade, cert_number, slab_case, price, sold, sold_value, date_sold, notes, image_url, ace_label_url, listing_url) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"
     );
     let query = statement.bind(&[
         slab.owner.into(),
@@ -99,10 +99,10 @@ async fn insert_slab(d1: &D1Database, slab: Slab) -> Result<()> {
         slab.set_name.into(),
         slab.tcg.into(),
         slab.language.into(),
-        slab.cost.into(),
         slab.grading_company.into(),
         slab.grade.into(),
         slab.cert_number.into(),
+        slab.slab_case.map_or(JsValue::NULL, |v| v.into()),
         slab.price.map_or(JsValue::NULL, |v| v.into()),
         slab.sold.into(),
         slab.sold_value.map_or(JsValue::NULL, |v| v.into()),

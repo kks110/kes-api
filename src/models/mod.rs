@@ -10,7 +10,7 @@ pub struct Slab {
     pub set_name: String,
     pub tcg: String,
     pub language: String,
-    pub cost: f64,
+    pub slab_case: Option<String>,
     pub grading_company: String,
     pub grade: f64,
     pub cert_number: String,
