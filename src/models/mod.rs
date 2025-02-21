@@ -17,6 +17,7 @@ pub struct Slab {
     pub price: Option<f64>,
     pub sold: i32,
     pub sold_value: Option<f64>,
+    pub postage_and_fees: Option<f64>,
     pub date_sold: Option<String>,
     pub notes: String,
     pub image_url: Option<String>,

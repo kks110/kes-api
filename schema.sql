@@ -16,6 +16,7 @@ CREATE TABLE IF NOT EXISTS Slabs (
     price INTEGER,
     sold BOOLEAN NOT NULL,
     sold_value INTEGER,
+    postage_and_fees INTEGER,
     date_sold TEXT,
     notes TEXT NOT NULL,
     image_url TEXT NOT NULL,

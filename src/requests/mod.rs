@@ -58,7 +58,7 @@ async fn slab_exists(d1: &D1Database, cert_number: &str) -> Result<bool> {
 
 async fn update_slab(d1: &D1Database, slab: Slab) -> Result<()> {
     let statement = d1.prepare(
-        "UPDATE Slabs SET owner = ?, for_sale = ?, card_name = ?, card_number = ?, set_name = ?, tcg = ?, language = ?, grading_company = ?, grade = ?, slab_case = ?, price = ?, sold = ?, sold_value = ?, date_sold = ?, notes = ?, image_url = ?, ace_label_url = ?, listing_url = ? WHERE cert_number = ?"
+        "UPDATE Slabs SET owner = ?, for_sale = ?, card_name = ?, card_number = ?, set_name = ?, tcg = ?, language = ?, grading_company = ?, grade = ?, slab_case = ?, price = ?, sold = ?, sold_value = ?, postage_and_fees = ?, date_sold = ?, notes = ?, image_url = ?, ace_label_url = ?, listing_url = ? WHERE cert_number = ?"
     );
     let query = statement.bind(&[
         slab.owner.into(),
@@ -74,6 +74,7 @@ async fn update_slab(d1: &D1Database, slab: Slab) -> Result<()> {
         slab.price.map_or(JsValue::NULL, |v| v.into()),
         slab.sold.into(),
         slab.sold_value.map_or(JsValue::NULL, |v| v.into()),
+        slab.postage_and_fees.map_or(JsValue::NULL, |v| v.into()),
         slab.date_sold.map_or(JsValue::NULL, |v| v.into()),
         slab.notes.into(),
         slab.image_url.unwrap_or_else(|| "https://limitlesstcg.com/images/image_not_available.png".to_string()).into(),
@@ -89,7 +90,7 @@ async fn update_slab(d1: &D1Database, slab: Slab) -> Result<()> {
 
 async fn insert_slab(d1: &D1Database, slab: Slab) -> Result<()> {
     let statement = d1.prepare(
-        "INSERT INTO Slabs (owner, for_sale, card_name, card_number, set_name, tcg, language, grading_company, grade, cert_number, slab_case, price, sold, sold_value, date_sold, notes, image_url, ace_label_url, listing_url) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"
+        "INSERT INTO Slabs (owner, for_sale, card_name, card_number, set_name, tcg, language, grading_company, grade, cert_number, slab_case, price, sold, sold_value, postage_and_fees, date_sold, notes, image_url, ace_label_url, listing_url) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"
     );
     let query = statement.bind(&[
         slab.owner.into(),
@@ -106,6 +107,7 @@ async fn insert_slab(d1: &D1Database, slab: Slab) -> Result<()> {
         slab.price.map_or(JsValue::NULL, |v| v.into()),
         slab.sold.into(),
         slab.sold_value.map_or(JsValue::NULL, |v| v.into()),
+        slab.postage_and_fees.map_or(JsValue::NULL, |v| v.into()),
         slab.date_sold.map_or(JsValue::NULL, |v| v.into()),
         slab.notes.into(),
         slab.image_url.unwrap_or_else(|| "https://limitlesstcg.com/images/image_not_available.png".to_string()).into(),
