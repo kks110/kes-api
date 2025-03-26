@@ -4,7 +4,7 @@ use serde::{Deserialize, Serialize};
 pub struct Slab {
     pub id: Option<i32>,
     pub owner: String,
-    pub for_sale: i32,
+    pub personal_collection: i32,
     pub card_name: String,
     pub card_number: String,
     pub set_name: String,
@@ -23,4 +23,5 @@ pub struct Slab {
     pub image_url: Option<String>,
     pub ace_label_url: Option<String>,
     pub listing_url: Option<String>,
+    pub updated_at: Option<String>,
 }

@@ -58,11 +58,11 @@ async fn slab_exists(d1: &D1Database, cert_number: &str) -> Result<bool> {
 
 async fn update_slab(d1: &D1Database, slab: Slab) -> Result<()> {
     let statement = d1.prepare(
-        "UPDATE Slabs SET owner = ?, for_sale = ?, card_name = ?, card_number = ?, set_name = ?, tcg = ?, language = ?, grading_company = ?, grade = ?, slab_case = ?, price = ?, sold = ?, sold_value = ?, postage_and_fees = ?, date_sold = ?, notes = ?, image_url = ?, ace_label_url = ?, listing_url = ? WHERE cert_number = ?"
+        "UPDATE Slabs SET owner = ?, personal_collection = ?, card_name = ?, card_number = ?, set_name = ?, tcg = ?, language = ?, grading_company = ?, grade = ?, slab_case = ?, price = ?, sold = ?, sold_value = ?, postage_and_fees = ?, date_sold = ?, notes = ?, image_url = ?, ace_label_url = ?, listing_url = ? WHERE cert_number = ?"
     );
     let query = statement.bind(&[
         slab.owner.into(),
-        slab.for_sale.into(),
+        slab.personal_collection.into(),
         slab.card_name.into(),
         slab.card_number.into(),
         slab.set_name.into(),
@@ -90,11 +90,11 @@ async fn update_slab(d1: &D1Database, slab: Slab) -> Result<()> {
 
 async fn insert_slab(d1: &D1Database, slab: Slab) -> Result<()> {
     let statement = d1.prepare(
-        "INSERT INTO Slabs (owner, for_sale, card_name, card_number, set_name, tcg, language, grading_company, grade, cert_number, slab_case, price, sold, sold_value, postage_and_fees, date_sold, notes, image_url, ace_label_url, listing_url) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"
+        "INSERT INTO Slabs (owner, personal_collection, card_name, card_number, set_name, tcg, language, grading_company, grade, cert_number, slab_case, price, sold, sold_value, postage_and_fees, date_sold, notes, image_url, ace_label_url, listing_url) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"
     );
     let query = statement.bind(&[
         slab.owner.into(),
-        slab.for_sale.into(),
+        slab.personal_collection.into(),
         slab.card_name.into(),
         slab.card_number.into(),
         slab.set_name.into(),
