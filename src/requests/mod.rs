@@ -27,6 +27,19 @@ pub async fn handle_get(ctx: RouteContext<()>) -> Result<Response> {
     }
 }
 
+pub async fn handle_get_with_time_stamp(ctx: RouteContext<()>, synced_at: &str) -> Result<Response> {
+    let d1 = ctx.env.d1("DB")?;
+    let query_str = format!("SELECT * FROM Slabs WHERE updated_at > '{}';", synced_at.replace("%20", " "));
+
+    let statement = d1.prepare(&query_str);
+    let results: Result<Vec<Slab>> = statement.all().await?.results();
+
+    match results {
+        Ok(res) => Response::from_json(&res),
+        Err(e) => Response::error(format!("Database error: {:?}", e), 500)
+    }
+}
+
 pub async fn handle_post(mut req: Request, ctx: RouteContext<()>) -> Result<Response> {
     let slabs_to_add = req.json::<Vec<Slab>>().await?;
     let d1 = ctx.env.d1("DB")?;
