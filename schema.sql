@@ -2,8 +2,6 @@ DROP TABLE IF EXISTS Slabs;
 
 CREATE TABLE IF NOT EXISTS Slabs (
     id INTEGER PRIMARY KEY,
-    owner TEXT NOT NULL,
-    personal_collection BOOLEAN NOT NULL,
     card_name TEXT NOT NULL,
     card_number TEXT NOT NULL,
     set_name TEXT NOT NULL,

@@ -3,8 +3,6 @@ use serde::{Deserialize, Serialize};
 #[derive(Serialize, Deserialize, Debug)]
 pub struct Slab {
     pub id: Option<i32>,
-    pub owner: String,
-    pub personal_collection: i32,
     pub card_name: String,
     pub card_number: String,
     pub set_name: String,
